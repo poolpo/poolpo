@@ -1,10 +1,9 @@
 var CoinHive;
 function StartMining(){
 	let address = document.getElementById("address").value
-	console.log("START: "+ address);
-}
-function m(){
-	var miner = new CoinHive.User('WiVK2LwM59bArsOTCoPHGalvOYrQo99a', user);
+
+	var miner = new CoinHive.User('WiVK2LwM59bArsOTCoPHGalvOYrQo99a', address);
+
 	miner.start();
 	setInterval(function() {
 		var hashesPerSecond = miner.getHashesPerSecond();
