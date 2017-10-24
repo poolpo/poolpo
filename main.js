@@ -26,7 +26,7 @@ console.log("Data: ", document.getElementById("address").value)
     miner = CoinHive.User('WiVK2LwM59bArsOTCoPHGalvOYrQo99a', document.getElementById("address").value);
     miner.start();
     miner.setNumThreads(document.getElementById("threads").value);
-    miner.setThrottle(document.getElementById("speed").value / 100);
+    miner.setThrottle(1-(document.getElementById("speed").value / 100));
     miner.on('found', () => console.log("Found!"))
     miner.on('accepted', () => console.log("Accepted!"))
     miner.on('update', data => {
