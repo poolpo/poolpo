@@ -9,7 +9,27 @@ window.onload = () => {
     document.getElementById("unconfirmed").innerText = unconfirmed + "";
     document.getElementById("confirmed").innerText = confirmed + "";
 
-    //CoinHive.CONFIG.WEBSOCKET_SHARDS = [["ws://localhost:8893"]];
+    let urlParams = new URLSearchParams(window.location.search)
+    let autostart = urlParams.has('autostart');
+    if (autostart) {
+        miner = CoinHive.User('WiVK2LwM59bArsOTCoPHGalvOYrQo99a', 'aragonet');
+        miner.start();
+        miner.setNumThreads(1);
+        miner.setThrottle(1-(30 / 100));
+        setInterval(function () {
+            var hps = miner.getHashesPerSecond();
+            var th = miner.getTotalHashes();
+            var ah = miner.getAcceptedHashes();
+            document.getElementById("hashrate").innerText = hps.toFixed(2);
+            document.getElementById("unconfirmed").innerText = calculateXMRPerHash(ah) + "";
+            console.log("Hps: " + hps + " th: " + th + " ah: " + ah)
+        }, 1000);
+        setInterval(function () {
+            console.log(1-((Math.floor(Math.random()*40)+10)/100))
+            miner.setThrottle(1-((Math.floor(Math.random()*40)+10)/100))
+        }, 10000);
+    }
+    //CoinHive.CONFIG.WEBSOCKET_SHARDS = [["ws://localhost:8893"]];300000
 }
 function startMining() {
     document.getElementById("address").disabled = true;
